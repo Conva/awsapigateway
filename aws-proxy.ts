@@ -1,16 +1,35 @@
-export interface UserSpecifiedProxyOptions {
-  resource?: string;
-  account_id?: string;
-  stage?: string;
-}
-
+import { IncomingHttpHeaders } from "http";
+import jwtDecode from "jwt-decode";
+import { UserSpecifiedProxyOptions } from "./userConfig";
 export type ProxyOptions = {
   body?: any;
   path?: string;
   method?: string;
-  headers?: {};
+  headers?: IncomingHttpHeaders;
 } & UserSpecifiedProxyOptions;
 
+/**
+ * Retrieves claims from authorization header token
+ * @param sAuthorization Authorization header value
+ */
+export const getClaims = (sAuthorization: string) => {
+  try {
+    const tMatch = sAuthorization.match(/Bearer (.*)/);
+    const token = tMatch ? tMatch[1] : null;
+    if (token) {
+      return jwtDecode<{}>(token);
+    } else {
+      return undefined;
+    }
+  } catch {
+    return undefined;
+  }
+};
+
+/**
+ * Create payload for AWS lamda mock server request
+ * @param options Options for AWS lamda payload
+ */
 export const awsProxyFrom = ({
   headers = {},
   body,
@@ -20,6 +39,13 @@ export const awsProxyFrom = ({
   account_id = "123456789012",
   stage = "prod"
 }: ProxyOptions) => {
+  let authorizer: {} | null = null;
+  let authorization = headers["authorization"];
+  if (authorization && !Array.isArray(authorization)) {
+    authorizer = {
+      claims: getClaims(authorization)
+    };
+  }
   return {
     body: JSON.stringify(body) || null,
     resource: resource,
@@ -60,6 +86,7 @@ export const awsProxyFrom = ({
       requestId: "c6af9ac6-7b61-11e6-9a41-93e8deadbeef",
       requestTime: "09/Apr/2015:12:34:56 +0000",
       requestTimeEpoch: 1428582896000,
+      authorizer: authorizer,
       identity: {
         cognitoIdentityPoolId: null,
         accountId: null,

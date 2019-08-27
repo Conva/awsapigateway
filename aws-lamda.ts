@@ -1,11 +1,12 @@
 import express from "express";
 import fetch, { RequestInit } from "node-fetch";
 import { awsProxyFrom } from "./aws-proxy";
+import { getUserConfig } from "./userConfig";
 export interface LamdaResponse {
   statusCode: number;
   headers: {};
   multiValueHeaders: {
-   [key : string]: string[];
+    [key: string]: string[];
   };
   body: string;
   isBase64Encoded: false;
@@ -16,6 +17,10 @@ export type LamdaResult = {
   Error?: Error;
 };
 
+/**
+ * Creates AWS lamda request to send to Lamda mock server
+ * @param payload Payload to include in request
+ */
 export const lamdaRequestFrom = (payload: {}): RequestInit => {
   return {
     headers: {
@@ -37,21 +42,28 @@ export const lamdaRequestFrom = (payload: {}): RequestInit => {
   };
 };
 
+/**
+ * Interfaces with AWS Lamda Mock Server function handler
+ * @param params Parameters from Rest request
+ */
 export const getLamdaResp = async ({
   body,
   headers,
   method,
   path
 }: express.Request): Promise<LamdaResult> => {
-  const proxy = awsProxyFrom({
+  const userConfig = getUserConfig();
+
+  const proxy = awsProxyFrom({...{
     body,
     headers,
     method,
     path: path.replace(/^\/+/, "")
-  });
+  },...userConfig});
+
   const lamdaRequest = lamdaRequestFrom(proxy);
   const fetchResponse = await fetch(
-    "http://localhost:5050/webtester-api/Tester/aws-lambda-tools-defaults.json/TestServerless::TestServerless.LambdaEntryPoint::FunctionHandlerAsync",
+    userConfig.entryPoint,
     lamdaRequest
   );
 

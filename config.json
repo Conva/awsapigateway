@@ -1,0 +1,6 @@
+{
+  "entryPoint": "http://localhost:5050/webtester-api/Tester/aws-lambda-tools-defaults.json/TestServerless::TestServerless.LambdaEntryPoint::FunctionHandlerAsync",
+  "resource": "/{proxy+}",
+  "account_id": "123456789012",
+  "stage": "prod"
+}
