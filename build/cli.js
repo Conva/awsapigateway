@@ -65,9 +65,9 @@ app.use(function (req, res, next) { return __awaiter(_this, void 0, void 0, func
                     res.statusCode = Response.statusCode;
                     res.send(Response.body);
                     console.info("Successful " + req.method + " to " + req.path + " with status " + StatusCode +
-                        argv.verbose
-                        ? " ,Response : " + Response.body
-                        : "");
+                        (argv.verbose
+                            ? " with body: \n" + Response.body
+                            : ""));
                 }
                 else {
                     sError = JSON.stringify(Error);

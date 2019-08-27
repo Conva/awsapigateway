@@ -23,9 +23,9 @@ app.use(async (req, res, next) => {
     res.send(Response.body);
     console.info(
       `Successful ${req.method} to ${req.path} with status ${StatusCode}` +
-        argv.verbose
-        ? ` ,Response : ${Response.body}`
-        : ""
+        (argv.verbose
+        ? ` with body: \n${Response.body}`
+        : "")
     );
   } else {
     const sError = JSON.stringify(Error);
