@@ -108,13 +108,15 @@ exports.getLamdaResp = function (_a) {
                     responseJson = _c.apply(_b, [_e.apply(_d, [_f.sent()])["response"]]);
                     return [2 /*return*/, {
                             Response: responseJson,
-                            IsSuccess: true
+                            IsSuccess: true,
+                            StatusCode: responseJson.statusCode
                         }];
                 case 4:
                     e_1 = _f.sent();
                     return [2 /*return*/, {
                             Error: e_1,
-                            IsSuccess: false
+                            IsSuccess: false,
+                            StatusCode: null
                         }];
                 case 5: return [2 /*return*/];
             }

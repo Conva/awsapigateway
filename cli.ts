@@ -13,7 +13,7 @@ app.use(bodyParser.text());
 app.use(bodyParser.json());
 
 app.use(async (req, res, next) => {
-  const { IsSuccess, Response, Error } = await getLamdaResp(req);
+  const { IsSuccess, Response, Error, StatusCode } = await getLamdaResp(req);
   if (IsSuccess && Response) {
     Object.keys(Response.multiValueHeaders).map(field => {
       const headers = Response.multiValueHeaders[field];
@@ -22,7 +22,7 @@ app.use(async (req, res, next) => {
     res.statusCode = Response.statusCode;
     res.send(Response.body);
     console.info(
-      `Successful ${req.method} to ${req.path} with status ${req.statusCode}, Response : ${Response.body}`
+      `Successful ${req.method} to ${req.path} with status ${StatusCode}, Response : ${Response.body}`
     );
   } else {
     const sError = JSON.stringify(Error);

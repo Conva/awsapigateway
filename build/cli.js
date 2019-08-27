@@ -51,12 +51,12 @@ var argv = userConfig_1.getUserConfig();
 app.use(body_parser_1.default.text());
 app.use(body_parser_1.default.json());
 app.use(function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
-    var _a, IsSuccess, Response, Error, sError;
+    var _a, IsSuccess, Response, Error, StatusCode, sError;
     return __generator(this, function (_b) {
         switch (_b.label) {
             case 0: return [4 /*yield*/, aws_lamda_1.getLamdaResp(req)];
             case 1:
-                _a = _b.sent(), IsSuccess = _a.IsSuccess, Response = _a.Response, Error = _a.Error;
+                _a = _b.sent(), IsSuccess = _a.IsSuccess, Response = _a.Response, Error = _a.Error, StatusCode = _a.StatusCode;
                 if (IsSuccess && Response) {
                     Object.keys(Response.multiValueHeaders).map(function (field) {
                         var headers = Response.multiValueHeaders[field];
@@ -64,7 +64,7 @@ app.use(function (req, res, next) { return __awaiter(_this, void 0, void 0, func
                     });
                     res.statusCode = Response.statusCode;
                     res.send(Response.body);
-                    console.info("Successful " + req.method + " to " + req.path + " with status " + req.statusCode + ", Response : " + Response.body);
+                    console.info("Successful " + req.method + " to " + req.path + " with status " + StatusCode + ", Response : " + Response.body);
                 }
                 else {
                     sError = JSON.stringify(Error);

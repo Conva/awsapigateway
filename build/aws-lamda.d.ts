@@ -12,6 +12,7 @@ export interface LamdaResponse {
 export declare type LamdaResult = {
     Response?: LamdaResponse;
     IsSuccess: boolean;
+    StatusCode: number | null;
     Error?: Error;
 };
 /**
