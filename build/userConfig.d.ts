@@ -4,7 +4,7 @@ export interface UserSpceifiedMockServerOptions {
 }
 export interface UserSpecifiedProxyOptions {
     resource?: string;
-    account_id?: string;
+    accountId?: string;
     stage?: string;
 }
 export declare type UserPresets = UserSpecifiedProxyOptions & UserSpceifiedMockServerOptions;
@@ -14,9 +14,10 @@ export declare type UserPresets = UserSpecifiedProxyOptions & UserSpceifiedMockS
 export declare const getUserConfig: () => {
     [x: string]: unknown;
     port: number;
+    verbose: boolean;
     entryPoint: string;
     resource: string;
-    account_id: string;
+    accountId: string;
     stage: string;
     _: string[];
     $0: string;

@@ -21,7 +21,7 @@ Options:
   --port, -p        Port to run server                  [number] [default: 3000]
   --entryPoint, -e  AWS mock server entry point              [string] [required]
   --resource, -r    AWS mock resource type       [string] [default: "/{proxy+}"]
-  --account_id      AWS mock account id       [string] [default: "123456789012"]
+  --accountId      AWS mock account id       [string] [default: "123456789012"]
   --stage, -s       AWS mock deployment stage         [string] [default: "prod"]
 
 Created by @afshawnlotfi

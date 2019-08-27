@@ -39,7 +39,7 @@ exports.getClaims = function (sAuthorization) {
  * @param options Options for AWS lamda payload
  */
 exports.awsProxyFrom = function (_a) {
-    var _b = _a.headers, headers = _b === void 0 ? {} : _b, body = _a.body, _c = _a.path, path = _c === void 0 ? "" : _c, _d = _a.resource, resource = _d === void 0 ? "/{proxy+}" : _d, _e = _a.method, method = _e === void 0 ? "POST" : _e, _f = _a.account_id, account_id = _f === void 0 ? "123456789012" : _f, _g = _a.stage, stage = _g === void 0 ? "prod" : _g;
+    var _b = _a.headers, headers = _b === void 0 ? {} : _b, body = _a.body, _c = _a.path, path = _c === void 0 ? "" : _c, _d = _a.resource, resource = _d === void 0 ? "/{proxy+}" : _d, _e = _a.method, method = _e === void 0 ? "POST" : _e, _f = _a.accountId, accountId = _f === void 0 ? "123456789012" : _f, _g = _a.stage, stage = _g === void 0 ? "prod" : _g;
     var authorizer = null;
     var authorization = headers["authorization"];
     if (authorization && !Array.isArray(authorization)) {
@@ -77,9 +77,9 @@ exports.awsProxyFrom = function (_a) {
             "X-Forwarded-Proto": "https"
         }),
         requestContext: {
-            accountId: account_id,
+            accountId: accountId,
             resourceId: "123456",
-            stage: "{{stage}}",
+            stage: stage,
             requestId: "c6af9ac6-7b61-11e6-9a41-93e8deadbeef",
             requestTime: "09/Apr/2015:12:34:56 +0000",
             requestTimeEpoch: 1428582896000,

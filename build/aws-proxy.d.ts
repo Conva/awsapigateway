@@ -16,7 +16,7 @@ export declare const getClaims: (sAuthorization: string) => {} | undefined;
  * Create payload for AWS lamda mock server request
  * @param options Options for AWS lamda payload
  */
-export declare const awsProxyFrom: ({ headers, body, path, resource, method, account_id, stage }: ProxyOptions) => {
+export declare const awsProxyFrom: ({ headers, body, path, resource, method, accountId, stage }: ProxyOptions) => {
     body: string | null;
     resource: string;
     path: string;

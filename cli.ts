@@ -22,7 +22,10 @@ app.use(async (req, res, next) => {
     res.statusCode = Response.statusCode;
     res.send(Response.body);
     console.info(
-      `Successful ${req.method} to ${req.path} with status ${StatusCode}, Response : ${Response.body}`
+      `Successful ${req.method} to ${req.path} with status ${StatusCode}` +
+        argv.verbose
+        ? ` ,Response : ${Response.body}`
+        : ""
     );
   } else {
     const sError = JSON.stringify(Error);
