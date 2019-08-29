@@ -80,7 +80,7 @@ exports.lamdaRequestFrom = function (payload) {
  * Interfaces with AWS Lamda Mock Server function handler
  * @param params Parameters from Rest request
  */
-exports.getLamdaResp = function (_a) {
+exports.getLamdaResult = function (_a) {
     var body = _a.body, headers = _a.headers, method = _a.method, path = _a.path;
     return __awaiter(_this, void 0, void 0, function () {
         var userConfig, proxy, lamdaRequest, fetchResponse, responseJson, _b, _c, _d, _e, e_1;
@@ -107,16 +107,16 @@ exports.getLamdaResp = function (_a) {
                 case 3:
                     responseJson = _c.apply(_b, [_e.apply(_d, [_f.sent()])["response"]]);
                     return [2 /*return*/, {
-                            Response: responseJson,
-                            IsSuccess: true,
-                            StatusCode: responseJson.statusCode
+                            response: responseJson,
+                            isSuccess: true,
+                            proxy: proxy
                         }];
                 case 4:
                     e_1 = _f.sent();
                     return [2 /*return*/, {
-                            Error: e_1,
-                            IsSuccess: false,
-                            StatusCode: null
+                            error: e_1,
+                            isSuccess: false,
+                            proxy: proxy
                         }];
                 case 5: return [2 /*return*/];
             }

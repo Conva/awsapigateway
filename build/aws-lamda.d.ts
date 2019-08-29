@@ -10,10 +10,10 @@ export interface LamdaResponse {
     isBase64Encoded: false;
 }
 export declare type LamdaResult = {
-    Response?: LamdaResponse;
-    IsSuccess: boolean;
-    StatusCode: number | null;
-    Error?: Error;
+    response?: LamdaResponse;
+    isSuccess: boolean;
+    error?: Error;
+    proxy: {};
 };
 /**
  * Creates AWS lamda request to send to Lamda mock server
@@ -24,4 +24,4 @@ export declare const lamdaRequestFrom: (payload: {}) => RequestInit;
  * Interfaces with AWS Lamda Mock Server function handler
  * @param params Parameters from Rest request
  */
-export declare const getLamdaResp: ({ body, headers, method, path }: express.Request) => Promise<LamdaResult>;
+export declare const getLamdaResult: ({ body, headers, method, path }: express.Request) => Promise<LamdaResult>;

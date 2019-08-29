@@ -1,8 +1,9 @@
 #!/usr/bin/env node
 import bodyParser from "body-parser";
 import express from "express";
-import { getLamdaResp } from "./aws-lamda";
+import { getLamdaResult } from "./aws-lamda";
 import { getUserConfig } from "./userConfig";
+import { writeGatwayResponse } from "./writer";
 // Create a new express application instance
 const app: express.Application = express();
 
@@ -12,23 +13,25 @@ const argv = getUserConfig();
 app.use(bodyParser.text());
 app.use(bodyParser.json());
 
-app.use(async (req, res, next) => {
-  const { IsSuccess, Response, Error, StatusCode } = await getLamdaResp(req);
-  if (IsSuccess && Response) {
-    Object.keys(Response.multiValueHeaders).map(field => {
-      const headers = Response.multiValueHeaders[field];
+app.use(async (req, res, _) => {
+  const lamdaResult = await getLamdaResult(req);
+  const { isSuccess, response, error } = lamdaResult;
+  if (isSuccess && response) {
+    Object.keys(response.multiValueHeaders).map(field => {
+      const headers = response.multiValueHeaders[field];
       res.setHeader(field, headers);
     });
-    res.statusCode = Response.statusCode;
-    res.send(Response.body);
+    res.statusCode = response.statusCode;
+    res.send(response.body);
     console.info(
-      `Successful ${req.method} to ${req.path} with status ${StatusCode}` +
-        (argv.verbose
-        ? ` with body: \n${Response.body}`
-        : "")
+      `Successful ${req.method} to ${req.path} with status ${response.statusCode}` +
+        (argv.verbose ? ` with body: \n${response.body}` : "")
     );
+    if (argv.writeResult) {
+      writeGatwayResponse(req.path, lamdaResult);
+    }
   } else {
-    const sError = JSON.stringify(Error);
+    const sError = JSON.stringify(error);
     console.error(`Error interfacing with AWS mock server: ${sError}`);
     res.send(500).send(sError);
   }

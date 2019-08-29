@@ -44,33 +44,36 @@ var body_parser_1 = __importDefault(require("body-parser"));
 var express_1 = __importDefault(require("express"));
 var aws_lamda_1 = require("./aws-lamda");
 var userConfig_1 = require("./userConfig");
+var writer_1 = require("./writer");
 // Create a new express application instance
 var app = express_1.default();
 var argv = userConfig_1.getUserConfig();
 // Initialize body parsers
 app.use(body_parser_1.default.text());
 app.use(body_parser_1.default.json());
-app.use(function (req, res, next) { return __awaiter(_this, void 0, void 0, function () {
-    var _a, IsSuccess, Response, Error, StatusCode, sError;
-    return __generator(this, function (_b) {
-        switch (_b.label) {
-            case 0: return [4 /*yield*/, aws_lamda_1.getLamdaResp(req)];
+app.use(function (req, res, _) { return __awaiter(_this, void 0, void 0, function () {
+    var lamdaResult, isSuccess, response, error, sError;
+    return __generator(this, function (_a) {
+        switch (_a.label) {
+            case 0: return [4 /*yield*/, aws_lamda_1.getLamdaResult(req)];
             case 1:
-                _a = _b.sent(), IsSuccess = _a.IsSuccess, Response = _a.Response, Error = _a.Error, StatusCode = _a.StatusCode;
-                if (IsSuccess && Response) {
-                    Object.keys(Response.multiValueHeaders).map(function (field) {
-                        var headers = Response.multiValueHeaders[field];
+                lamdaResult = _a.sent();
+                isSuccess = lamdaResult.isSuccess, response = lamdaResult.response, error = lamdaResult.error;
+                if (isSuccess && response) {
+                    Object.keys(response.multiValueHeaders).map(function (field) {
+                        var headers = response.multiValueHeaders[field];
                         res.setHeader(field, headers);
                     });
-                    res.statusCode = Response.statusCode;
-                    res.send(Response.body);
-                    console.info("Successful " + req.method + " to " + req.path + " with status " + StatusCode +
-                        (argv.verbose
-                            ? " with body: \n" + Response.body
-                            : ""));
+                    res.statusCode = response.statusCode;
+                    res.send(response.body);
+                    console.info("Successful " + req.method + " to " + req.path + " with status " + response.statusCode +
+                        (argv.verbose ? " with body: \n" + response.body : ""));
+                    if (argv.writeResult) {
+                        writer_1.writeGatwayResponse(req.path, lamdaResult);
+                    }
                 }
                 else {
-                    sError = JSON.stringify(Error);
+                    sError = JSON.stringify(error);
                     console.error("Error interfacing with AWS mock server: " + sError);
                     res.send(500).send(sError);
                 }

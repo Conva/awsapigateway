@@ -12,10 +12,10 @@ export interface LamdaResponse {
   isBase64Encoded: false;
 }
 export type LamdaResult = {
-  Response?: LamdaResponse;
-  IsSuccess: boolean;
-  StatusCode: number | null;
-  Error?: Error;
+  response?: LamdaResponse;
+  isSuccess: boolean;
+  error?: Error;
+  proxy: {};
 };
 
 /**
@@ -47,7 +47,7 @@ export const lamdaRequestFrom = (payload: {}): RequestInit => {
  * Interfaces with AWS Lamda Mock Server function handler
  * @param params Parameters from Rest request
  */
-export const getLamdaResp = async ({
+export const getLamdaResult = async ({
   body,
   headers,
   method,
@@ -73,15 +73,15 @@ export const getLamdaResp = async ({
       JSON.parse(await fetchResponse.text())["response"]
     );
     return {
-      Response: responseJson,
-      IsSuccess: true,
-      StatusCode: responseJson.statusCode
+      response: responseJson,
+      isSuccess: true,
+      proxy: proxy
     };
   } catch (e) {
     return {
-      Error: e,
-      IsSuccess: false,
-      StatusCode: null
+      error: e,
+      isSuccess: false,
+      proxy: proxy
     };
   }
 };

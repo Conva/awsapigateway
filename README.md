@@ -16,13 +16,16 @@ Server entry should look something like this: <br>
 Usage: awsapigateway <command> [options]
 
 Options:
-  --version         Show version number                                [boolean]
-  -h                Show help                                          [boolean]
-  --port, -p        Port to run server                  [number] [default: 3000]
-  --entryPoint, -e  AWS mock server entry point              [string] [required]
-  --resource, -r    AWS mock resource type       [string] [default: "/{proxy+}"]
-  --accountId      AWS mock account id       [string] [default: "123456789012"]
-  --stage, -s       AWS mock deployment stage         [string] [default: "prod"]
+  --version          Show version number                               [boolean]
+  -h                 Show help                                         [boolean]
+  --port, -p         Port to run server                 [number] [default: 3000]
+  --writeResult, -w  Writes result of gateway and response from server to json
+                     file                             [boolean] [default: false]
+  --verbose, -v      Output verbose logs              [boolean] [default: false]
+  --entryPoint, -e   AWS mock server entry point             [string] [required]
+  --resource, -r     AWS mock resource type      [string] [default: "/{proxy+}"]
+  --accountId        AWS mock account id      [string] [default: "123456789012"]
+  --stage, -s        AWS mock deployment stage        [string] [default: "prod"]
 
 Created by @afshawnlotfi
 ```

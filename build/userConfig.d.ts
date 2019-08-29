@@ -14,6 +14,7 @@ export declare type UserPresets = UserSpecifiedProxyOptions & UserSpceifiedMockS
 export declare const getUserConfig: () => {
     [x: string]: unknown;
     port: number;
+    writeResult: boolean;
     verbose: boolean;
     entryPoint: string;
     resource: string;
