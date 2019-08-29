@@ -69,7 +69,7 @@ app.use(function (req, res, _) { return __awaiter(_this, void 0, void 0, functio
                     console.info("Successful " + req.method + " to " + req.path + " with status " + response.statusCode +
                         (argv.verbose ? " with body: \n" + response.body : ""));
                     if (argv.writeResult) {
-                        writer_1.writeGatwayResponse(req.path, lamdaResult);
+                        writer_1.writeGatwayResponse(req.path, req.method, lamdaResult);
                     }
                 }
                 else {

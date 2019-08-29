@@ -28,7 +28,7 @@ app.use(async (req, res, _) => {
         (argv.verbose ? ` with body: \n${response.body}` : "")
     );
     if (argv.writeResult) {
-      writeGatwayResponse(req.path, lamdaResult);
+      writeGatwayResponse(req.path, req.method, lamdaResult);
     }
   } else {
     const sError = JSON.stringify(error);

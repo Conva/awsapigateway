@@ -13,6 +13,7 @@
       "args": [
         "-e",
         "http://localhost:5050/webtester-api/Tester/aws-lambda-tools-defaults.json/TestServerless::TestServerless.LambdaEntryPoint::FunctionHandlerAsync",
+        "-w"
         
       ],
       "outFiles": ["${workspaceFolder}/build/**/*.js"]

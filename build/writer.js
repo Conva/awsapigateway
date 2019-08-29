@@ -1,13 +1,13 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 var fs_1 = require("fs");
-exports.writeGatwayResponse = function (path, _a) {
+exports.writeGatwayResponse = function (path, method, _a) {
     var proxy = _a.proxy, response = _a.response;
     var gatewayResp = {
         proxy: proxy,
         response: response ? response : null
     };
-    var fileName = "request" + path.replace(/\//g, "-") + ".json";
+    var fileName = "" + method + path.replace(/\//g, "-") + ".json";
     try {
         fs_1.writeFileSync(fileName, JSON.stringify(gatewayResp), {
             encoding: "utf8",

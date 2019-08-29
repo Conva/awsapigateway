@@ -7,13 +7,14 @@ export interface GatewayResponse {
 }
 export const writeGatwayResponse = (
   path: string,
+  method: string,
   { proxy, response }: LamdaResult
 ) => {
   const gatewayResp: GatewayResponse = {
     proxy,
     response: response ? response : null
   };
-  let fileName = `request${path.replace(/\//g, "-")}.json`;
+  let fileName = `${method}${path.replace(/\//g, "-")}.json`;
   try {
     writeFileSync(fileName, JSON.stringify(gatewayResp), {
       encoding: "utf8",
