@@ -2,17 +2,23 @@ import express from "express";
 import fetch, { RequestInit } from "node-fetch";
 import { awsProxyFrom } from "./aws-proxy";
 import { getUserConfig } from "./userConfig";
-export interface LamdaResponse {
-  statusCode: number;
+
+export interface LamdaRequest {
   headers: {};
+  body: string;
+}
+
+export type LamdaResponse = LamdaRequest & {
   multiValueHeaders: {
     [key: string]: string[];
   };
-  body: string;
+  statusCode: number;
   isBase64Encoded: false;
-}
+};
+
 export type LamdaResult = {
   response?: LamdaResponse;
+  request: LamdaRequest;
   isSuccess: boolean;
   error?: Error;
   proxy: {};
@@ -51,7 +57,8 @@ export const getLamdaResult = async ({
   body,
   headers,
   method,
-  path
+  path,
+  statusCode
 }: express.Request): Promise<LamdaResult> => {
   const userConfig = getUserConfig();
 
@@ -67,21 +74,26 @@ export const getLamdaResult = async ({
 
   const lamdaRequest = lamdaRequestFrom(proxy);
   const fetchResponse = await fetch(userConfig.entryPoint, lamdaRequest);
-
+  const request: LamdaRequest = {
+    body,
+    headers,
+  };
   try {
-    const responseJson: LamdaResponse = JSON.parse(
+    const response: LamdaResponse = JSON.parse(
       JSON.parse(await fetchResponse.text())["response"]
     );
     return {
-      response: responseJson,
+      response,
       isSuccess: true,
-      proxy: proxy
+      proxy,
+      request
     };
-  } catch (e) {
+  } catch (error) {
     return {
-      error: e,
+      error,
       isSuccess: false,
-      proxy: proxy
+      proxy,
+      request
     };
   }
 };

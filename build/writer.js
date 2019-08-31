@@ -2,8 +2,9 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 var fs_1 = require("fs");
 exports.writeGatwayResponse = function (path, method, _a) {
-    var proxy = _a.proxy, response = _a.response;
+    var proxy = _a.proxy, response = _a.response, request = _a.request;
     var gatewayResp = {
+        request: request,
         proxy: proxy,
         response: response ? response : null
     };

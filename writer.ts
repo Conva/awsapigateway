@@ -2,15 +2,17 @@ import { writeFileSync } from "fs";
 import { LamdaResult } from "./aws-lamda";
 
 export interface GatewayResponse {
+  request: {}
   proxy: {};
   response: {} | null;
 }
 export const writeGatwayResponse = (
   path: string,
   method: string,
-  { proxy, response }: LamdaResult
+  { proxy, response, request }: LamdaResult
 ) => {
   const gatewayResp: GatewayResponse = {
+    request,
     proxy,
     response: response ? response : null
   };

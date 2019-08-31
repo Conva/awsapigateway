@@ -81,9 +81,9 @@ exports.lamdaRequestFrom = function (payload) {
  * @param params Parameters from Rest request
  */
 exports.getLamdaResult = function (_a) {
-    var body = _a.body, headers = _a.headers, method = _a.method, path = _a.path;
+    var body = _a.body, headers = _a.headers, method = _a.method, path = _a.path, statusCode = _a.statusCode;
     return __awaiter(_this, void 0, void 0, function () {
-        var userConfig, proxy, lamdaRequest, fetchResponse, responseJson, _b, _c, _d, _e, e_1;
+        var userConfig, proxy, lamdaRequest, fetchResponse, request, response, _b, _c, _d, _e, error_1;
         return __generator(this, function (_f) {
             switch (_f.label) {
                 case 0:
@@ -98,6 +98,10 @@ exports.getLamdaResult = function (_a) {
                     return [4 /*yield*/, node_fetch_1.default(userConfig.entryPoint, lamdaRequest)];
                 case 1:
                     fetchResponse = _f.sent();
+                    request = {
+                        body: body,
+                        headers: headers,
+                    };
                     _f.label = 2;
                 case 2:
                     _f.trys.push([2, 4, , 5]);
@@ -105,18 +109,20 @@ exports.getLamdaResult = function (_a) {
                     _e = (_d = JSON).parse;
                     return [4 /*yield*/, fetchResponse.text()];
                 case 3:
-                    responseJson = _c.apply(_b, [_e.apply(_d, [_f.sent()])["response"]]);
+                    response = _c.apply(_b, [_e.apply(_d, [_f.sent()])["response"]]);
                     return [2 /*return*/, {
-                            response: responseJson,
+                            response: response,
                             isSuccess: true,
-                            proxy: proxy
+                            proxy: proxy,
+                            request: request
                         }];
                 case 4:
-                    e_1 = _f.sent();
+                    error_1 = _f.sent();
                     return [2 /*return*/, {
-                            error: e_1,
+                            error: error_1,
                             isSuccess: false,
-                            proxy: proxy
+                            proxy: proxy,
+                            request: request
                         }];
                 case 5: return [2 /*return*/];
             }
